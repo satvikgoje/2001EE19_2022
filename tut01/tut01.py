@@ -80,8 +80,58 @@ def octact_identification(mod=5000):
     df1.loc[0, "+4"] = oct_count["+4"]
     df1.loc[0, "-4"] = oct_count["-4"]   
 
-    df1.to_csv('octant_output.csv')
+    #df1.to_csv('octant_output.csv')
+
                   ###########   Added Some Columns And Rows for MOD Count   ##########                
+
+    x = 0 # for findind octant values for MOD ranges
+    t = 2 #for 
+    while (x < l): ##
+
+        c1 = c2 = c3 = c4 = c5 = c6 = c7 = c8 = 0 ## count values of each octant is stored in varibles for MOD ranges 
+
+        for i in range(x,x+mod,1):
+
+            if(i>=l):
+                break ## bound check 
+            if (df1.loc[i, "Octant"] == "+1"):
+                c1+=1 ## count of +1
+            if (df1.loc[i, "Octant"] == "-1"):
+                c2+=1 ## count of -1
+            if (df1.loc[i, "Octant"] == "+2"):
+                c3+=1 ## count of +2
+            if (df1.loc[i, "Octant"] == "-2"):
+                c4+=1 ## count of -2
+            if (df1.loc[i, "Octant"] == "+3"):
+                c5+=1 ## count of +3
+            if (df1.loc[i, "Octant"] == "-3"):
+                c6+=1 ## count of -3
+            if (df1.loc[i, "Octant"] == "+4"):
+                c7+=1 ## count of -4
+            if (df1.loc[i, "Octant"] == "-4"):
+                c8+=1 ## count of +4
+
+        # assigning overall count of octants in each interval
+        df1.loc[t, "+1"] = c1
+        df1.loc[t, "-1"] = c2
+        df1.loc[t, "+2"] = c3
+        df1.loc[t, "-2"] = c4
+        df1.loc[t, "+3"] = c5
+        df1.loc[t, "-3"] = c6
+        df1.loc[t, "+4"] = c7
+        df1.loc[t, "-4"] = c8
+
+
+        if((x+mod)>l): # Writing MOD ranges in Octant ID Coloumn
+            df1.loc[t,"Octant ID"]=str(x)+"-"+str(l-1)## for last index(i.e) 2744
+        else:
+            df1.loc[t,"Octant ID"]=str(x)+"-"+str(x+mod-1)
+
+        x+=mod
+        t+=1 
+    
+               ################ Octant Count Based on Mod Values  ######################
+    df1.to_csv('octant_output.csv') ## Updating into a octant_output.csv file
 
 
 mod = 5000
