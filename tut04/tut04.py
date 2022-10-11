@@ -86,6 +86,12 @@ try:
             d1 = {"+1": 0, "-1": 1, "+2": 2, "-2": 3, "+3": 4,
                   "-3": 5, "+4": 6, "-4": 7}  # creating a dictionary
 
+            # Creating an empty 2d list of size of 8
+            # where each list stores the upper range(Time Range) value of thier respectively Octants
+            time_range = []
+            for i in range(8):
+                time_range.append([])
+
             while (x < l):
                 s1 = df1.at[x, "Octant"]
                 count = 0
@@ -106,10 +112,20 @@ try:
                 if (count > temp):
                     # Reassigning the values of LSL count to one
                     LSL_count[d1[s1]] = 1
+                    # if list is empty appending  Upper range Value
+                    if (len(time_range[d1[s1]]) == 0):
+                        time_range[d1[s1]].append(j-1)
+
+                    else:
+                        time_range[d1[s1]].clear()  # Clearing the list
+                        # appending a curent upper range value to the same clered octant list
+                        time_range[d1[s1]].append(j-1)
 
                 if (count == temp):
                     # incremneting the count of LSL by one
                     LSL_count[d1[s1]] += 1
+                    # appending to the pre-existing(non-empty) list having same LSL of respective Octant
+                    time_range[d1[s1]].append(j-1)
 
             for i in range(8):
                 # updating Longest subsequence length for respectively octant values
@@ -118,6 +134,12 @@ try:
             for j in range(8):
                 # updating count of LSL for respectively octant values
                 df1.loc[j, "Count"] = LSL_count[j]
+
+            df1["  "] = " "  # Empty Column without Header
+            df1[" Octant "] = " "  # Empty Column
+            df1[" Longest Subsequence Length"] = " "  # Empty Column
+            df1[" Count"] = " "  # Empty Column
+            # print(time_range) # time_range = [[10945], [14645, 18174, 19131], [16990], [29321], [16217], [677], [29219], [28059]]
 
             df1.to_excel(
                 'output_octant_longest_subsequence_with_range.xlsx', index=False)
