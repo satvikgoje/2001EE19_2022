@@ -141,8 +141,27 @@ try:
             df1[" Count"] = " "  # Empty Column
             # print(time_range) # time_range = [[10945], [14645, 18174, 19131], [16990], [29321], [16217], [677], [29219], [28059]]
 
-            df1.to_excel(
-                'output_octant_longest_subsequence_with_range.xlsx', index=False)
+            t = 0  # row pointer
+            for i in range(8):
+                df1.loc[t, " Octant "] = arr[i]  # Updating Octant Values
+                # Updating LSL of Octants
+                df1.loc[t, " Longest Subsequence Length"] = max_count[i]
+                # updating count of LSl of Octants
+                df1.loc[t, " Count"] = LSL_count[i]
+                t += 1  # t points to next row
+                df1.loc[t, " Octant "] = "Time"
+                df1.loc[t, " Longest Subsequence Length"] = "From"
+                df1.loc[t, " Count"] = "To"
+
+                t += 1  # t points to next row
+                for j in range(LSL_count[i]):
+                    # Appending lower range # From
+                    df1.loc[t, " Longest Subsequence Length"] = 0.01*((time_range[d1[arr[i]]][j])-(max_count[i]-1))
+                    # Appending Upper range #To
+                    df1.loc[t, " Count"] = 0.01*time_range[d1[arr[i]]][j]
+                    t += 1
+                    
+            df1.to_excel('output_octant_longest_subsequence_with_range.xlsx', index=False)
             # Updating into a output_octant_transition_identify.xlsx file
 
         except FileNotFoundError:
