@@ -177,6 +177,48 @@ try:
         t1 += 1
         t2 += 1
 
+    t += 8
+    x = 0
+    while (x < l): 
+        t += 4
+        df1.loc[t, "Octant ID"] = "Mod Transition Count"
+        if ((x+mod) > l):  # Writing MOD ranges in Octant ID Coloumn
+            df1.loc[t+1, "Octant ID"] = str(x)+"-"+str(l-1)  # for last index(i.e) 2744
+        else:
+            df1.loc[t+1, "Octant ID"] = str(x)+"-"+str(x+mod-1)    
+        df1.loc[t+1, "+1"] = "To"
+        t += 2
+        arr = ["+1", "-1", "+2", "-2", "+3", "-3", "+4", "-4"]
+        df1.loc[t, "Octant ID"] = "Count"
+        df1.iloc[t+1, 11] = "From"
+        h = df1.columns  # h stores column labels
+        # header name in index format(integer) (here ,y=13)
+        y = h.get_loc("+1")
+        j = 0
+        for i in range(y, y+8): ## updating a row
+            df1.iloc[t, i] = arr[j] 
+            j += 1
+
+        j = 0
+        for i in range(t+1, t+9): ## updating Coloumn
+            df1.loc[i, "Octant ID"] = arr[j]
+            j += 1
+
+
+        for i in range(x, x+mod):## each interval
+
+            if (i == l-1):
+                break
+            s1 = df1.at[i, "Octant"]  # From
+            s2 = df1.at[i+1, "Octant"]  # To
+
+            if (pd.isnull(df1.loc[t+d1[s1], s2])):## checking if cell is empty/null
+                df1.loc[t+d1[s1], s2] = 1## adding one
+            else:
+                df1.loc[t+d1[s1], s2] = int(df1.loc[t+d1[s1], s2]) + 1## increamenting the count by one and updating it to coloumn
+
+        t += 8
+        x += mod
     
     # index=flase removes the index coloum
 
