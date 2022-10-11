@@ -80,7 +80,7 @@ try:
             max_count = [0]*8
 
             # for count of LSL for respectively octant values # initlizing a max_count with all zeroes
-            # max_count1 = [0]*8
+            max_count1 = [0]*8
             d1 = {"+1": 0, "-1": 1, "+2": 2, "-2": 3,
                   "+3": 4, "-3": 5, "+4": 6, "-4": 7}# creating a dictionary
 
@@ -101,17 +101,17 @@ try:
                 # updating a maximum count of value if current count is greater
                 max_count[d1[s1]] = max(max_count[d1[s1]], count)
 
-                # if (count > temp):
-                #     max_count1[d1[s1]] = 1 ##Reassigning the values of LSL count to one
+                if (count > temp):
+                    max_count1[d1[s1]] = 1 ##Reassigning the values of LSL count to one
 
-                # if (count == temp):
-                #     max_count1[d1[s1]] += 1 ##incremneting the count of LSL by one
+                if (count == temp):
+                    max_count1[d1[s1]] += 1 ##incremneting the count of LSL by one
 
             for i in range(8):  # updating Longest subsequence length for respectively octant values
                 df1.loc[i, "Longest Subsequence Length"] = max_count[i]
 
-            # for j in range(8):  # updating count of LSL for respectively octant values
-            #     df1.loc[j, "Count"] = max_count1[j]
+            for j in range(8):  # updating count of LSL for respectively octant values
+                df1.loc[j, "Count"] = max_count1[j]
 
             df1.to_excel('output_octant_longest_subsequence.xlsx', index=False)
             # Updating into a output_octant_transition_identify.xlsx file
