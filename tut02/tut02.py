@@ -83,7 +83,7 @@ try:
     df1.loc[0, "+4"] = oct_count["+4"]
     df1.loc[0, "-4"] = oct_count["-4"]
 
-    
+    # df1.to_csv('octant_output.csv')
 
     ###########   Added Some Columns And Rows for MOD Count   ##########
 
@@ -128,16 +128,40 @@ try:
         if ((x+mod) > l):  # Writing MOD ranges in Octant ID Coloumn
             df1.loc[t, "Octant ID"] = str(x)+"-"+str(l-1)  # for last index(i.e) 2744
             break
+            # h=df1.columns ## h stores column labels
+            # y=h.get_loc("+1") ## header name in index format(integer) (here ,y=13)
+            # j=0
+            # for i in range(y,y+8):
+            #     df1.iloc[t+1,i]=sum[j] ##verifing the count of octants
+            #     j +=1
         else:
             df1.loc[t, "Octant ID"] = str(x)+"-"+str(x+mod-1)
 
         x += mod
         t += 1
 
-    
         ################ Octant Count Based on Mod Values  ######################
-    
+    t += 4
+    df1.loc[t, "Octant ID"] = "Overall Transition Count"
+    df1.loc[t+1, "+1"] = "To"
+    t += 2
+    arr = ["+1", "-1", "+2", "-2", "+3", "-3", "+4", "-4"]
+    df1.loc[t, "Octant ID"] = "Count"
+    df1.iloc[t+1, 11] = "From"
+    h = df1.columns  # h stores column labels
+    y = h.get_loc("+1")  # header name in index format(integer) (here ,y=13)
+    j = 0
+    for i in range(y, y+8):
+        df1.iloc[t, i] = arr[j]  # verifing the count of octants
+        j += 1
+
+    j = 0
+    for i in range(t+1, t+9): 
+        df1.loc[i, "Octant ID"] = arr[j] #updating Octant ID column 
+        j += 1
+
     # index=flase removes the index coloum
+
     df1.to_excel('output_octant_transition_identify.xlsx', index=False)  
     # Updating into a output_octant_transition_identify.xlsx file
    except FileNotFoundError:
@@ -155,4 +179,4 @@ try:
   mod = 5000
   octact_identification(mod)
 except:
-   print("Error in the code")  
+  print("Error in the code")  
