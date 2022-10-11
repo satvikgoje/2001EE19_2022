@@ -64,48 +64,15 @@ try:
 
                 ######  Octant Identification  ########
 
-        # df1[" "] = " "
-        # df1["Octant "] = " "
-        # arr = ["+1", "-1", "+2", "-2", "+3", "-3", "+4", "-4"]
-        # for i in range(8): # Updating a Octant Count 
-        #     df1.loc[i, "Octant "] = arr[i]
+        df1[" "] = " "
+        df1["Octant "] = " "
+        arr = ["+1", "-1", "+2", "-2", "+3", "-3", "+4", "-4"]
+        for i in range(8): # Updating a Octant Column 
+            df1.loc[i, "Octant "] = arr[i]
 
 
-        # df1["Longest Subsequence Length"] = " "
-        # df1["Count"] = " "
-
-        # l = len(df1)  # 29745
-        # x = 0
-        # max_count = [0]*8  # initlizing a max_count with all zeroes
-        # max_count1 = [0]*8  # initlizing a max_count with all zeroes
-        # d1 = {"+1": 0, "-1": 1, "+2": 2, "-2": 3,
-        #     "+3": 4, "-3": 5, "+4": 6, "-4": 7}
-        # while (x < l):
-        #     s1 = df1.at[x, "Octant"]
-        #     count = 0
-        #     j = x
-        #     while (1):  # counting max sequence
-        #         if (j >= l):
-        #             break
-        #         if (df1.at[j, "Octant"] != s1):  # breaking if next element is not equal to s1
-        #             break
-        #         count += 1
-        #         j += 1
-
-        #     x += count
-        #     temp = max_count[d1[s1]]
-        #     max_count[d1[s1]] = max(max_count[d1[s1]], count)
-
-        #     if (count > temp):
-        #         max_count1[d1[s1]] = 1
-        #     if (count == temp):
-        #         max_count1[d1[s1]] += 1
-
-        # for i in range(8): ## updating values to respectively Octant Values
-        #     df1.loc[i, "Longest Subsequence Length"] = max_count[i]
-
-        # for j in range(8): ## updating values to respectively Octant Values
-        #     df1.loc[j, "Count"] = max_count1[j]
+        df1["Longest Subsequence Length"] = " " #Empty Column
+        df1["Count"] = " " #Empty Column
 
         df1.to_excel('output_octant_longest_subsequence.xlsx', index=False)
         # Updating into a output_octant_transition_identify.xlsx file
