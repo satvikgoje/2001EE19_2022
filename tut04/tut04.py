@@ -66,6 +66,59 @@ try:
 
                     ######  Octant Identification  ########
 
+            df1[" "] = " "
+            df1["Octant "] = " "  # Creating empty column with Octant as a header
+            arr = ["+1", "-1", "+2", "-2", "+3", "-3", "+4", "-4"]
+            for i in range(8):
+                # appending values in octant column
+                df1.loc[i, "Octant "] = arr[i]
+
+            df1["Longest Subsequence Length"] = " "
+            df1["Count"] = " "
+
+            l = len(df1)  # 29745
+            x = 0
+            # Longest subsequence length for respectively octant values #initlizing a max_count with all zeroes  #initlizing a max_count with all zeroes
+            max_count = [0]*8
+
+            # for count of LSL for respectively octant values # initlizing a max_count with all zeroes #initlizing a LSL_count with all zeroes
+            LSL_count = [0]*8
+            d1 = {"+1": 0, "-1": 1, "+2": 2, "-2": 3, "+3": 4,
+                  "-3": 5, "+4": 6, "-4": 7}  # creating a dictionary
+
+            while (x < l):
+                s1 = df1.at[x, "Octant"]
+                count = 0
+                j = x
+                while (1):  # counting length of sequence
+                    # breaking if next element is not equal to s1
+                    if (j >= l or df1.at[j, "Octant"] != s1):
+                        break
+                    count += 1
+                    j += 1
+
+                x += count
+                temp = max_count[d1[s1]]
+
+                # updating a maximum count of value if current count is greater the current max
+                max_count[d1[s1]] = max(max_count[d1[s1]], count)
+
+                if (count > temp):
+                    # Reassigning the values of LSL count to one
+                    LSL_count[d1[s1]] = 1
+
+                if (count == temp):
+                    # incremneting the count of LSL by one
+                    LSL_count[d1[s1]] += 1
+
+            for i in range(8):
+                # updating Longest subsequence length for respectively octant values
+                df1.loc[i, "Longest Subsequence Length"] = max_count[i]
+
+            for j in range(8):
+                # updating count of LSL for respectively octant values
+                df1.loc[j, "Count"] = LSL_count[j]
+
             df1.to_excel(
                 'output_octant_longest_subsequence_with_range.xlsx', index=False)
             # Updating into a output_octant_transition_identify.xlsx file
