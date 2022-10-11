@@ -160,6 +160,24 @@ try:
         df1.loc[i, "Octant ID"] = arr[j] #updating Octant ID column 
         j += 1
 
+
+    t1 = 0
+    t2 = 1
+    d1 = {"+1": 1, "-1": 2, "+2": 3, "-2": 4,"+3": 5, "-3": 6, "+4": 7, "-4": 8}
+    while (1):
+        if (t2 == l):
+            break
+        s1 = df1.at[t1, "Octant"]  # From
+        s2 = df1.at[t2, "Octant"]  # To
+
+        if (pd.isnull(df1.loc[t+d1[s1], s2])):## checking if cell is empty/null
+            df1.loc[t+d1[s1], s2] = 1 ## adding one
+        else:
+            df1.loc[t+d1[s1], s2] = int(df1.loc[t+d1[s1], s2]) + 1 ## increamenting the count by one and updating it to coloumn
+        t1 += 1
+        t2 += 1
+
+    
     # index=flase removes the index coloum
 
     df1.to_excel('output_octant_transition_identify.xlsx', index=False)  
