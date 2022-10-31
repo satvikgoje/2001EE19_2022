@@ -26,6 +26,8 @@ try:
             df1["V'=V - V avg"] = df1["V"]-avg_v
             df1["W'=W - W avg"] = df1["W"]-avg_w
 
+            # df1.to_csv('octant_output.csv')
+
             #######          Data PreProcessing     ###########
 
             df1["Octant"] = ''  # Creatig a empty Column with Header as Octant
@@ -154,6 +156,22 @@ try:
 
                 x += mod
                 t += 1
+
+                ################ Octant Count Based on Mod Values  ######################
+
+            t += 3
+            df1.loc[t, "+1"] = "Octant ID"
+            df1.loc[t, "-1"] = "Octant Name"
+            df1.loc[t, "+2"] = "Count of Rank1 of Mod Values"
+            t += 1
+            i = 0
+            for ID, name in octant_name_id_mapping.items():#iterating through a dict 
+                #appending the Octant IDs, Octant Name ,and count of Rank1 of mod values
+                df1.loc[t, "+1"] = int(ID)
+                df1.loc[t, "-1"] = name
+                df1.loc[t, "+2"] = count_rank_mod[i]
+                t += 1
+                i += 1
 
             df1.to_excel('octant_output_ranking_excel.xlsx', index=False)
 
