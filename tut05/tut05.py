@@ -79,10 +79,32 @@ try:
             oct_cnt = {} #for storing octant count as key and and coreesponding octant value as value in dict 
             for i in range(8):
                 s = arr[i] 
+                oct_cnt.update({oct_count[s]: s})# appending the overall count of octant and octant value in dict i.e for Ex:(2610,"+1")
                 df1.loc[0, s] = oct_count[s]# And assigning a count values to respectively Coloumns
+
+            # print(oct_cnt) #{2610: '+1', 4603: '-1', 4855: '+2', 2798: '-2', 4548: '+3', 2784: '-3', 2769: '+4', 4778: '-4'}
+            sortedbykey = {k: v for k, v in sorted(oct_cnt.items())} #sorting the dict by keys
+            # print(sortedbykey) {2610: '+1', 2769: '+4', 2784: '-3', 2798: '-2', 4548: '+3', 4603: '-1', 4778: '-4', 4855: '+2'}
+            sortedbykey_lst = list(sortedbykey.values()) #storing the sorted values in a list
+            # print(sortedbykey_lst)['+1', '+4', '-3', '-2', '+3', '-1', '-4', '+2']
 
             octant_name_id_mapping = {"1": "Internal outward interaction", "-1": "External outward interaction", "2": "External Ejection",
                                     "-2": "Internal Ejection", "3": "External inward interaction", "-3": "Internal inward interaction", "4": "Internal sweep", "-4": "External sweep"}
+
+            df1["Rank 1"] = ''#created empty columns
+            df1["Rank 2"] = ''
+            df1["Rank 3"] = ''
+            df1["Rank 4"] = ''
+            df1["Rank 5"] = ''
+            df1["Rank 6"] = ''
+            df1["Rank 7"] = ''
+            df1["Rank 8"] = ''
+
+            dic_rank = {"+1": "Rank 1", "-1": "Rank 2", "+2": "Rank 3", "-2": "Rank 4",
+                        "+3": "Rank 5", "-3": "Rank 6", "+4": "Rank 7", "-4": "Rank 8"}#for reference
+
+            for i in range(8):
+                df1.loc[0, dic_rank[sortedbykey_lst[i]]] = 8-i #appending the octant ranks of octants
 
                     ###########   Added Some Columns And Rows for MOD Count   ##########
 
@@ -96,6 +118,7 @@ try:
 
                 oct_cnt_mod = [0]*8 # count values of each octant is stored for MOD ranges
 
+                oct_cnt = {} #for storing octant count as key and and coreesponding octant value as value in dict
                 for i in range(x, x+mod, 1):
 
                     if (i >= l):
@@ -107,7 +130,14 @@ try:
                     s = arr[i]
                     # assigning overall count of octants in each interval
                     df1.loc[t, s] = oct_cnt_mod[i]
-            
+                    oct_cnt.update({oct_cnt_mod[i]: s})#appending the overall count of octant and octant value in dict
+
+                sortedbykey = {k: v for k, v in sorted(oct_cnt.items())}#sorting the dict by keys
+                sortedbykey_lst = list(sortedbykey.values())#storing the sorted values in a list
+
+                for i in range(8):
+                    df1.loc[t, dic_rank[sortedbykey_lst[i]]] = 8-i #appending the octant ranks of octants
+
                 if ((x+mod) > l):  # Writing MOD ranges in Octant ID Coloumn
                     df1.loc[t, "Octant ID"] = str(x)+"-"+str(l-1)  # for last index(i.e) 2744
                 else:
@@ -115,8 +145,6 @@ try:
 
                 x += mod
                 t += 1
-
-                ################ Octant Count Based on Mod Values  ######################
 
 
             df1.to_excel('octant_output_ranking_excel.xlsx', index=False)
