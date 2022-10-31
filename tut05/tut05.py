@@ -26,8 +26,6 @@ try:
             df1["V'=V - V avg"] = df1["V"]-avg_v
             df1["W'=W - W avg"] = df1["W"]-avg_w
 
-            # df1.to_csv('octant_output.csv')
-
             #######          Data PreProcessing     ###########
 
             df1["Octant"] = ''  # Creatig a empty Column with Header as Octant
@@ -99,18 +97,24 @@ try:
             df1["Rank 6"] = ''
             df1["Rank 7"] = ''
             df1["Rank 8"] = ''
+            df1["Rank1 Octant ID"] = " "
 
             dic_rank = {"+1": "Rank 1", "-1": "Rank 2", "+2": "Rank 3", "-2": "Rank 4",
                         "+3": "Rank 5", "-3": "Rank 6", "+4": "Rank 7", "-4": "Rank 8"}#for reference
 
             for i in range(8):
                 df1.loc[0, dic_rank[sortedbykey_lst[i]]] = 8-i #appending the octant ranks of octants
+                if (8-i == 1):
+                    #appending the highest rank octant and its corresponding octant name
+                    df1.loc[0, "Rank1 Octant ID"] = int(sortedbykey_lst[i])
+                    df1.loc[0, "Rank1 Octant Name"] = octant_name_id_mapping[str(df1.loc[0, "Rank1 Octant ID"])]
 
                     ###########   Added Some Columns And Rows for MOD Count   ##########
 
             x = 0  # for findind octant values for MOD ranges
             t = 2  # for row pointer
 
+            count_rank_mod = [0]*8  # Count of rank mod values
             while (x < l):
 
                 d1 = {"+1": 0, "-1": 1, "+2": 2, "-2": 3, "+3": 4,
@@ -137,6 +141,11 @@ try:
 
                 for i in range(8):
                     df1.loc[t, dic_rank[sortedbykey_lst[i]]] = 8-i #appending the octant ranks of octants
+                    if (8-i == 1):
+                        #appending the highest rank octant and its corresponding octant name
+                        df1.loc[t, "Rank1 Octant ID"] = int(sortedbykey_lst[i])
+                        df1.loc[t, "Rank1 Octant Name"] = octant_name_id_mapping[str(df1.loc[t, "Rank1 Octant ID"])]
+                        count_rank_mod[d1[sortedbykey_lst[i]]] += 1 #incrementing by one of corresponding octant
 
                 if ((x+mod) > l):  # Writing MOD ranges in Octant ID Coloumn
                     df1.loc[t, "Octant ID"] = str(x)+"-"+str(l-1)  # for last index(i.e) 2744
@@ -145,7 +154,6 @@ try:
 
                 x += mod
                 t += 1
-
 
             df1.to_excel('octant_output_ranking_excel.xlsx', index=False)
 
