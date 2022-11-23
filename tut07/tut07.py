@@ -16,8 +16,7 @@ try:
                 # Check whether the specified
                 # path exists or not
             isExist = os.path.isdir(r'G:\CS384\2001EE19_2022\tut07\output')
-
-            if (not (isExist)):#make output dir if it doesnt exist
+            if (not (isExist)):
                 os.mkdir(r'G:\CS384\2001EE19_2022\tut07\output')
 
             os.chdir(r'G:\CS384\2001EE19_2022\tut07\input')
@@ -201,7 +200,8 @@ try:
                     x += mod
                     t += 1
 
-                #count of Rank1 of mod values
+                    ################ Octant Count Based on Mod Values  ######################
+
                 t += 3
                 df1.loc[t, "+1"] = "Octant ID"
                 df1.loc[t, "-1"] = "Octant Name"
@@ -216,8 +216,90 @@ try:
                     t += 1
                     i += 1
 
-                                  ############### tut 5 ###############
-                 
+                                   ############### tut 5 ###############
+                    ################ Octant Count Based on Mod Values  ######################
+                df1["  "] = ""
+                df1["   "] = " "
+                df1.iloc[0, 33] = "From"
+                df1.loc["Octant #"] = " "
+                arr = [" +1", " -1", " +2", " -2", " +3", " -3", " +4", " -4"]
+
+                j = 0
+                for i in range(0, 8):
+                    df1.loc[i, "Octant #"] = arr[j]  # updating Octant ID column
+                    j += 1
+
+                j = 0
+                for j in range(0, 8):
+                    s1 = arr[j]  # verifing the count of octants
+                    df1[s1] = " "
+
+                t1 = 0
+                t2 = 1
+                d1 = {"+1": 0, "-1": 1, "+2": 2, "-2": 3,
+                    "+3": 4, "-3": 5, "+4": 6, "-4": 7}
+                d2 = {"+1": " +1", "-1": " -1", "+2": " +2", "-2": " -2",
+                    "+3": " +3", "-3": " -3", "+4": " +4", "-4": " -4"}
+
+                while (1):
+                    if (t2 == l):
+                        break
+                    s1 = df1.at[t1, "Octant"]  # From
+                    s2 = df1.at[t2, "Octant"]  # To
+                    # print(df1.loc[d1[s1], d2[s2]])
+                    if (df1.loc[d1[s1], d2[s2]] == " "):  # checking if cell is empty/null
+                        df1.loc[d1[s1], d2[s2]] = 1  # adding one
+                    else:
+                        # increamenting the count by one and updating it to coloumn
+                        df1.loc[d1[s1], d2[s2]] = int(df1.loc[d1[s1], d2[s2]]) + 1
+                    t1 += 1
+                    t2 += 1
+
+                t = 7
+                x = 0
+                while (x < l):
+                    t += 4
+                    df1.loc[t, "Octant #"] = "Mod Transition Count"
+                    if ((x+mod) > l):  # Writing MOD ranges in Octant ID Coloumn
+                        # for last index(i.e) 2744
+                        df1.loc[t+1, "Octant #"] = str(x)+"-"+str(l-1)
+                    else:
+                        df1.loc[t+1, "Octant #"] = str(x)+"-"+str(x+mod-1)
+                    df1.loc[t+1, " +1"] = "To"
+                    t += 2
+                    arr = ["+1", "-1", "+2", "-2", "+3", "-3", "+4", "-4"]
+                    df1.loc[t, "Octant #"] = "Octant #"
+                    df1.iloc[t+1, 33] = "From"
+                    h = df1.columns  # h stores column labels
+                    # header name in index format(integer) (here ,y=13)
+                    y = h.get_loc(" +1")
+                    j = 0
+                    for i in range(y, y+8):  # updating a row
+                        df1.iloc[t, i] = arr[j]
+                        j += 1
+
+                    j = 0
+                    for i in range(t+1, t+9):  # updating Coloumn
+                        df1.loc[i, "Octant #"] = arr[j]
+                        j += 1
+
+                    for i in range(x, x+mod):  # each interval
+
+                        if (i == l-1):
+                            break
+                        s1 = df1.at[i, "Octant"]  # From
+                        s2 = df1.at[i+1, "Octant"]  # To
+
+                        if (df1.loc[t+d1[s1]+1, d2[s2]] == " "):  # checking if cell is empty/null
+                            df1.loc[t+d1[s1]+1, d2[s2]] = 1  # adding one
+                        else:
+                            # increamenting the count by one and updating it to coloumn
+                            df1.loc[t+d1[s1]+1, d2[s2]
+                                    ] = int(df1.loc[t+d1[s1]+1, d2[s2]]) + 1
+                    t += 8
+                    x += mod
+
+                             ############### tut 2 ###############
 
                 # taking 1st name of input file for naming of output
                 inp = lst_files[sat].replace(
@@ -228,7 +310,8 @@ try:
                 df1.to_excel(inp, index=False)  # updating dataframe into excel
 
                 ########################################################################################
-                
+
+
                 sat = sat+1 #iterating to next file in input
 
         except FileNotFoundError:
