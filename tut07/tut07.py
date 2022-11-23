@@ -412,8 +412,116 @@ try:
                 df1.to_excel(inp, index=False)  # updating dataframe into excel
 
                 ########################################################################################
+                # oprating on openpyxl for borders and colouring
+                wb = openpyxl.load_workbook(inp)
+                ws = wb['Sheet1']
+
+                # for borders a cell
+                thin_border = Border(left=Side(border_style='thin', color='FF000000'),
+                                    right=Side(border_style='thin',
+                                                color='FF000000'),
+                                    top=Side(border_style='thin',
+                                            color='FF000000'),
+                                    bottom=Side(border_style='thin',
+                                                color='FF000000')
+                                    )
+
+                thick_border = Border(left=Side(border_style='thin', color='FF000000'),
+                                    right=Side(border_style='thin',
+                                                color='FF000000'),
+                                    top=Side(border_style='thin',
+                                            color='FF000000'),
+                                    bottom=Side(border_style='medium',
+                                                color='FF000000')
+                                    )
+
+                # for colouring a cell
+                fill_cell = PatternFill(
+                    fill_type=fills.FILL_SOLID, start_color='00FFFF00', end_color='00FFFF00')
+
+                # define size of the table     # For Overall octant count and Rank of Octant
+                row_num = math.ceil(l/mod)+2
+                col_num = 19
+                # location of the Table
+                row_loc = 1
+                col_loc = 14
+
+                for i in range(row_loc, row_loc+row_num):
+                    for j in range(col_loc, col_num+col_loc):
+                        ws.cell(row=i, column=j).border = thin_border
+                        if ((ws.cell(row=i, column=j).value == 1)):  # adding colour for rank ! values
+                            ws.cell(row=i, column=j).fill = fill_cell
+                        if i == row_loc+row_num-1:
+                            ws.cell(row=i, column=j).border = thick_border
+
+                # define size of the table  # for count of Rank1 values
+                row_num = 9
+                col_num = 3
+                # location of the Table
+                row_loc = 10
+                col_loc = 15
+
+                for i in range(row_loc, row_loc+row_num):
+                    for j in range(col_loc, col_num+col_loc):
+                        ws.cell(row=i, column=j).border = thin_border
+                        if i == row_loc+row_num-1:
+                            ws.cell(row=i, column=j).border = thick_border
+
+                # define size of the table  # for overall trasition and mod transition
+                row_num = 9
+                col_num = 9
+                # location of the Table
+                row_loc = 1
+                col_loc = 35
+
+                # Number of Tables
+                Table_num = math.ceil(l/mod)+1
+                dis = 5  # distance between the tables
+
+                for _ in range(Table_num):
+                    k = 0
+                    for i in range(row_loc, row_loc+row_num):
+
+                        if (i > row_loc):
+                            ws.cell(row=i, column=col_loc+k).fill = fill_cell
+                        for j in range(col_loc, col_num+col_loc):
+                            ws.cell(row=i, column=j).border = thin_border
+                            if i == row_loc+row_num-1:
+                                ws.cell(row=i, column=j).border = thick_border
+                        k += 1
+
+                    row_loc = row_loc+row_num+dis
+
+                # define size of the table   ##For Time Ranges of Octant's LSL
+                row_num = 9
+                col_num = 3
+                # location of the Table
+                row_loc = 1
+                col_loc = 45
+
+                for i in range(row_loc, row_loc+row_num):
+                    for j in range(col_loc, col_num+col_loc):
+                        ws.cell(row=i, column=j).border = thin_border
+                        if i == row_loc+row_num-1:
+                            ws.cell(row=i, column=j).border = thick_border
+
+                row_num = l  # For Time Ranges of Octant's LSL
+                col_num = 3
+                # location of the Table
+                row_loc = 1
+                col_loc = 49
+
+                for i in range(row_loc, row_loc+row_num):
+                    # print(ws.cell(row=i, column=50).value)
+                    if (ws.cell(row=i, column=50).value == " "):  # breakig if values is None( empty cell)
+                        break
+                    for j in range(col_loc, col_num+col_loc):
+                        ws.cell(row=i, column=j).border = thin_border
+                        if i == row_loc+row_num-1:
+                            ws.cell(row=i, column=j).border = thick_border
 
                 sat = sat+1 #iterating to next file in input
+                wb.save(inp) # saving the file
 
         except FileNotFoundError:
             # if Input file is not found / typo in name of the file
