@@ -216,7 +216,7 @@ try:
                     t += 1
                     i += 1
 
-                                   ############### tut 5 ###############
+                    ############### tut 5 ###############
                     ################ Octant Count Based on Mod Values  ######################
                 df1["  "] = ""
                 df1["   "] = " "
@@ -299,7 +299,109 @@ try:
                     t += 8
                     x += mod
 
-                             ############### tut 2 ###############
+                    ############### tut 2 ###############
+                    ##################
+                df1["    "] = " "
+                # Creating empty column with Octant as a header
+                df1["Octant ##"] = " "
+                arr = ["+1", "-1", "+2", "-2", "+3", "-3", "+4", "-4"]
+                for i in range(8):
+                    # appending values in octant column
+                    df1.loc[i, "Octant ##"] = arr[i]
+
+                df1["Longest Subsequence Length"] = " "
+                df1["Count"] = " "
+
+                x = 0
+                # Longest subsequence length for respectively octant values #initlizing a max_count with all zeroes  #initlizing a max_count with all zeroes
+                max_count = [0]*8
+
+                # for count of LSL for respectively octant values # initlizing a max_count with all zeroes #initlizing a LSL_count with all zeroes
+                LSL_count = [0]*8
+                d1 = {"+1": 0, "-1": 1, "+2": 2, "-2": 3, "+3": 4,
+                    "-3": 5, "+4": 6, "-4": 7}  # creating a dictionary
+
+                # Creating an empty 2d list of size of 8
+                # where each list stores the upper range(Time Range) value of thier respectively Octants
+                time_range = []
+                for i in range(8):
+                    time_range.append([])
+
+                while (x < l):
+                    s1 = df1.at[x, "Octant"]
+                    count = 0
+                    j = x
+                    while (1):  # counting length of sequence
+                        # breaking if next element is not equal to s1
+                        if (j >= l or df1.at[j, "Octant"] != s1):
+                            break
+                        count += 1
+                        j += 1
+
+                    x += count
+                    temp = max_count[d1[s1]]
+
+                    # updating a maximum count of value if current count is greater the current max
+                    max_count[d1[s1]] = max(max_count[d1[s1]], count)
+
+                    if (count > temp):
+                        # Reassigning the values of LSL count to one
+                        LSL_count[d1[s1]] = 1
+                        # if list is empty appending  Upper range Value
+                        if (len(time_range[d1[s1]]) == 0):
+                            time_range[d1[s1]].append(j-1)
+
+                        else:
+                            time_range[d1[s1]].clear()  # Clearing the list
+                            # appending a curent upper range value to the same clered octant list
+                            time_range[d1[s1]].append(j-1)
+
+                    if (count == temp):
+                        # incremneting the count of LSL by one
+                        LSL_count[d1[s1]] += 1
+                        # appending to the pre-existing(non-empty) list having same LSL of respective Octant
+                        time_range[d1[s1]].append(j-1)
+
+                        ############### tut 2 ###############
+
+                for i in range(8):
+                    # updating Longest subsequence length for respectively octant values
+                    df1.loc[i, "Longest Subsequence Length"] = max_count[i]
+
+                max_l_cnt = 0
+                for j in range(8):
+                    # updating count of LSL for respectively octant values
+                    df1.loc[j, "Count"] = LSL_count[j]
+                    max_l_cnt += LSL_count[j]
+
+                df1["     "] = " "  # Empty Column without Header
+                df1["Octant ####"] = " "  # Empty Column
+                df1[" Longest Subsequence Length"] = " "  # Empty Column
+                df1[" Count"] = " "  # Empty Column
+                # print(time_range) # time_range = [[10945], [14645, 18174, 19131], [16990], [29321], [16217], [677], [29219], [28059]]
+
+                t = 0  # row pointer
+                for i in range(8):
+                    df1.loc[t, "Octant ####"] = arr[i]  # Updating Octant Values
+                    # Updating LSL of Octants
+                    df1.loc[t, " Longest Subsequence Length"] = max_count[i]
+                    # updating count of LSl of Octants
+                    df1.loc[t, " Count"] = LSL_count[i]
+                    t += 1  # t points to next row
+                    df1.loc[t, "Octant ####"] = "Time"
+                    df1.loc[t, " Longest Subsequence Length"] = "From"
+                    df1.loc[t, " Count"] = "To"
+
+                    t += 1  # t points to next row
+                    for j in range(LSL_count[i]):
+                        # Appending lower range # From
+                        df1.loc[t, " Longest Subsequence Length"] = 0.01 * \
+                            ((time_range[d1[arr[i]]][j])-(max_count[i]-1))
+                        # Appending Upper range #To
+                        df1.loc[t, " Count"] = 0.01*time_range[d1[arr[i]]][j]
+                        t += 1
+
+                        ############### tut 3 and 4 ###############
 
                 # taking 1st name of input file for naming of output
                 inp = lst_files[sat].replace(
@@ -310,7 +412,6 @@ try:
                 df1.to_excel(inp, index=False)  # updating dataframe into excel
 
                 ########################################################################################
-
 
                 sat = sat+1 #iterating to next file in input
 
