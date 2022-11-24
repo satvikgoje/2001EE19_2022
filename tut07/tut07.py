@@ -15,17 +15,21 @@ try:
                 # path = 'G:\CS384\2001EE19_2022\tut07\output'
                 # Check whether the specified
                 # path exists or not
-            isExist = os.path.isdir(r'G:\CS384\2001EE19_2022\tut07\output')
+            path_input = r'G:\CS384\2001EE19_2022\tut07\input'
+            path_output= r'G:\CS384\2001EE19_2022\tut07\output'
+            
+            isExist = os.path.isdir(path_output)
             if (not (isExist)):
-                os.mkdir(r'G:\CS384\2001EE19_2022\tut07\output')
-
-            os.chdir(r'G:\CS384\2001EE19_2022\tut07\input')
+                os.mkdir(path_output)
+            
+           
+            os.chdir(path_input)
             lst_files = glob.glob('*.xlsx')
             sat = 0
             for file in lst_files:  # iterating thorugh files in input folder
 
                 # again we changing the dir to input from output
-                os.chdir(r'G:\CS384\2001EE19_2022\tut07\input')
+                os.chdir(path_input)
                 df1 = pd.read_excel(file)  # reading the input file
                 avg_u = df1['U'].mean()  # Calculating average of U,V,W
                 avg_v = df1['V'].mean()
@@ -407,7 +411,7 @@ try:
                 inp = lst_files[sat].replace(
                     '.xlsx', " cm_vel_octant_analysis_mod_"+str(mod)+".xlsx")
                 # changing direc to ouput file to save output files
-                os.chdir(r'G:\CS384\2001EE19_2022\tut07\output')
+                os.chdir(path_output)
                 print(inp)
                 df1.to_excel(inp, index=False)  # updating dataframe into excel
 
