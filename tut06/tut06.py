@@ -207,7 +207,7 @@ try:
     def tut_06():
         FROM_ADDR = "goje_2001ee19@iitp.ac.in"
         FROM_PASSWD = "Gsatvik#2410"
-        TO_ADDR = "satvikgoje2410@gmail.com"
+        TO_ADDR = "cs3842022@gmail.com"
         Subject = " attendence_report_consolidated of CS384  "
         Body = " Check The attachment "
         file_path = './output/attendence_report_consolidated.xlsx'
