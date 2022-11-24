@@ -131,7 +131,7 @@ def octact_identification(mod=5000):
         t+=1 
     
                ################ Octant Count Based on Mod Values  ######################
-    df1.to_csv('octant_output.csv') ## Updating into a octant_output.csv file
+    df1.to_csv('octant_output.csv',index=False) ## Updating into a octant_output.csv file
 
 
 mod = 5000
