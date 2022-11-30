@@ -34,25 +34,25 @@ if(x and y and z ):
         st.write("**Pick An Option From Below:**")
         
         st.markdown(new_title, unsafe_allow_html=True)
-        new_title = '<p style="font-family:sans-serif; background-color:#FFFFFFFF; font-size: 15px; padding-left: 5%;">2 : S</p>'
+        new_title = '<p style="font-family:sans-serif; background-color:#A2A2A1FF; font-size: 15px; padding-left: 5%;">2 : S</p>'
         st.markdown(new_title, unsafe_allow_html=True)
         
         new_title = '<p style="font-family:sans-serif; background-color:#A2A2A1FF; font-size: 15px; padding-left: 5%;">3 : A</p>'
         st.markdown(new_title, unsafe_allow_html=True)
         
-        new_title = '<p style="font-family:sans-serif; background-color:#FFFFFFFF; font-size: 15px; padding-left: 5%;">4 : C and S</p>'
+        new_title = '<p style="font-family:sans-serif; background-color:#A2A2A1FF; font-size: 15px; padding-left: 5%;">4 : C and S</p>'
         st.markdown(new_title, unsafe_allow_html=True)
         
         new_title = '<p style="font-family:sans-serif; background-color:#A2A2A1FF; font-size: 15px; padding-left: 5%;">5 : C and A</p>'
         st.markdown(new_title, unsafe_allow_html=True)
         
-        new_title = '<p style="font-family:sans-serif; background-color:#FFFFFFFF; font-size: 15px; padding-left: 5%;">6 : S and A</p>'
+        new_title = '<p style="font-family:sans-serif; background-color:#A2A2A1FF; font-size: 15px; padding-left: 5%;">6 : S and A</p>'
         st.markdown(new_title, unsafe_allow_html=True)
         
         new_title = '<p style="font-family:sans-serif; background-color:#A2A2A1FF; font-size: 15px; padding-left: 5%;">7 : C and S and A</p>'
         st.markdown(new_title, unsafe_allow_html=True)
         
-        new_title = '<p style="font-family:sans-serif; background-color:#FFFFFFFF; font-size: 15px; padding-left: 5%;">8 : All Combine</p>'
+        new_title = '<p style="font-family:sans-serif; background-color:#A2A2A1FF; font-size: 15px; padding-left: 5%;">8 : All Combine</p>'
         st.markdown(new_title, unsafe_allow_html=True)
         # st.write("2 : S")
         # st.write("3 : A")
@@ -1073,4 +1073,4 @@ def call():
 
 if(st.button("Compute")):
     call()
-    st.markdown("### Succesfully Excuted")
+    st.markdown("### Succesfully Executed")
